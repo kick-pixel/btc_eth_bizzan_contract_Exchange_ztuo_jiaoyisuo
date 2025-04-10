@@ -1,4 +1,7 @@
 # btc_eth_bizzan_contract_Exchange_ztuo_jiaoyisuo
+
+#### 全新版本的交易所系统2025即将上线，前后端价格全新设计！！！
+
 `1、项目用了Lombok插件，无论用什么IDE工具，请务必先安装Lombok插件 2、项目用了QueryDsl，如果遇见以Q开头的类找不到，请先编译一下对应的core模块，例如core、exchange-core、xxx-core这种模块 3、找不到的jar包在项目jar文件夹下
 jdk版本1.8以上（有可能在项目目录下的lib目录）`
 
