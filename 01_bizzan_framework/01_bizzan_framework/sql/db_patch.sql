@@ -31,7 +31,7 @@ CREATE TABLE `coin` (
   `miner_fee` decimal(18,8) DEFAULT '0.00000000' COMMENT '矿工费',
   `withdraw_scale` int(11) DEFAULT '4' COMMENT '提币精度',
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of coin
@@ -70,7 +70,7 @@ CREATE TABLE `exchange_coin` (
   `instrument` varchar(20) DEFAULT NULL COMMENT '交易类型，B2C2特有',
   `min_turnover` decimal(18,8) DEFAULT '0.00000000' COMMENT '最小挂单成交额',
   PRIMARY KEY (`symbol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of exchange_coin
@@ -98,7 +98,7 @@ CREATE TABLE `otc_coin` (
   `status` int(11) DEFAULT NULL,
   `unit` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of otc_coin
@@ -126,7 +126,7 @@ CREATE TABLE `country` (
   `local_currency` varchar(255) DEFAULT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`zh_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of country
@@ -166,7 +166,7 @@ CREATE TABLE `admin` (
   CONSTRAINT `admin_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`),
   CONSTRAINT `admin_ibfk_3` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`),
   CONSTRAINT `FKnmmt6f2kg0oaxr11uhy7qqf3w` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of admin
@@ -186,7 +186,7 @@ CREATE TABLE `admin_permission` (
   `sort` int(11) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of admin_permission
@@ -375,7 +375,7 @@ CREATE TABLE `admin_role` (
   `description` varchar(255) DEFAULT NULL,
   `role` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of admin_role
@@ -403,7 +403,7 @@ CREATE TABLE `admin_role_permission` (
   CONSTRAINT `admin_role_permission_ibfk_4` FOREIGN KEY (`rule_id`) REFERENCES `admin_permission` (`id`),
   CONSTRAINT `FK52rddd3qje4p49iubt08gplb5` FOREIGN KEY (`role_id`) REFERENCES `admin_role` (`id`),
   CONSTRAINT `FKqf3fhgl5mjqqb0jeupx7yafh0` FOREIGN KEY (`rule_id`) REFERENCES `admin_permission` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of admin_role_permission

@@ -2,7 +2,7 @@
 
 -- noinspection SqlNoDataSourceInspectionForFile
 
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -19,7 +19,7 @@ CREATE TABLE `member_wallet_history` (
   `after_frozen_balance` decimal(18,8) DEFAULT '0.00000000',
   `op_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1338 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1338 DEFAULT CHARSET=utf8mb4;
 
 SET FOREIGN_KEY_CHECKS = 1;
 

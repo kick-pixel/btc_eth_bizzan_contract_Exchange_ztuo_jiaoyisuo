@@ -1,21 +1,36 @@
 package com.bizzan.bitrade.entity;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
-import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
-
-import com.bizzan.bitrade.constant.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.bizzan.bitrade.constant.AdvertiseControlStatus;
+import com.bizzan.bitrade.constant.AdvertiseLevel;
+import com.bizzan.bitrade.constant.AdvertiseType;
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.PriceType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
+import lombok.Data;
 
 /**
  * 广告实体类
@@ -78,7 +93,7 @@ public class Advertise implements Serializable {
      * 国家
      */
     @NotNull(message = "{Advertise.country.null}")
-    @JoinColumn(name = "country")
+    @JoinColumn(name = "country", referencedColumnName = "zh_name")
     @ManyToOne
     private Country country;
 

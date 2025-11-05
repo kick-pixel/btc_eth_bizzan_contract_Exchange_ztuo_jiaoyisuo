@@ -23,8 +23,11 @@ Vue.use(VueRouter);
 Vue.use(vueResource);
 Vue.use(VueI18n);
 
-Vue.prototype.rootHost = "https://www.bizzans.com/"; //BIZZAN
-Vue.prototype.host = "https://api.bizzans.com/"; //BIZZAN
+// Vue.prototype.rootHost = "https://www.bizzans.com/"; //BIZZAN
+// Vue.prototype.host = "https://api.bizzans.com/"; //BIZZAN
+Vue.prototype.rootHost = "http://127.0.0.1:8888"; //BIZZAN
+Vue.prototype.host = "http://127.0.0.1:8888"; //BIZZAN
+
 
 Vue.prototype.api = Api;
 Vue.http.options.credentials = true;

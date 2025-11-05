@@ -1,6 +1,6 @@
 export default {
-    host: 'https://api.bizzans.com/',
-//    host: 'http://129.226.154.197:6010',
+    // host: 'https://api.bizzans.com/',
+   host: 'http://127.0.0.1:6010/',
     common: {
         login: '/admin/system/employee/sign/in'
     },

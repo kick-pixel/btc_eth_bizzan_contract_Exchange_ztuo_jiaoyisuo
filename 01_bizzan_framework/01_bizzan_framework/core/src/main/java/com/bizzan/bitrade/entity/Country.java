@@ -1,9 +1,10 @@
 package com.bizzan.bitrade.entity;
 
-import lombok.Data;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import lombok.Data;
 
 /**
  * 国家
@@ -18,6 +19,7 @@ public class Country {
      * 中文名称
      */
     @Id
+    @Column(name = "zh_name", length = 255)
     private String zhName;
 
     /**
