@@ -1,4 +1,10 @@
 /target/
 
-.idea
+/.idea/**
 .DS_Store
+
+*.class
+*.iml
+*.log
+/target/**
+/.idea/
