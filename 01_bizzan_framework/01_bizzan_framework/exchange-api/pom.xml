@@ -79,7 +79,7 @@
 			<groupId>com.sparkframework</groupId>
 			<artifactId>spark-core</artifactId>
 			<scope>system</scope>
-			<systemPath>D:/Project/SVN/btxchain/01_bizzan_framework/01_bizzan_framework/jar/spark-core-2.6.0.jar</systemPath>
+			<systemPath>D:/crazy/web3-exchange/code/btc_eth_bizzan_contract_Exchange_ztuo_jiaoyisuo/01_bizzan_framework/01_bizzan_framework/jar/spark-core-2.6.0.jar</systemPath>
 		</dependency>
     </dependencies>
     <profiles>

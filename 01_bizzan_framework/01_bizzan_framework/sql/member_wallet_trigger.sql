@@ -26,9 +26,11 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 -- 修改member_wallet 表结构，增加after update trigger
 
+DELIMITER $$
 create trigger trigger_update_wallet
 after update on member_wallet
 for each row
 begin
  INSERT INTO member_wallet_history(member_id,coin_id,before_balance,after_balance,before_frozen_balance,after_frozen_balance,op_time) VALUES (new.member_id,new.coin_id,old.balance,new.balance,old.frozen_balance,new.frozen_balance,now());
-end;
+end$$
+DELIMITER ;
