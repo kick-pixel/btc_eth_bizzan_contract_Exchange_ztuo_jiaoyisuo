@@ -12,8 +12,6 @@ import com.bizzan.bitrade.service.ExchangeCoinService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -138,7 +136,7 @@ public class CoinExchangeRate {
     public BigDecimal getDefaultUsdRate(String symbol) {
         Coin coin = coinService.findByUnit(symbol);
         if (coin != null) {
-            return new BigDecimal(coin.getUsdRate());
+            return coin.getUsdRate();
         } else {
             return BigDecimal.ZERO;
         }
@@ -170,99 +168,73 @@ public class CoinExchangeRate {
     /**
      * 每5分钟同步一次价格
      *
-     * @throws UnirestException
      */
     
     @Scheduled(cron = "0 */5 * * * *")
-    public void syncUsdtCnyPrice() throws UnirestException {
-    	// 抹茶OTC接口
-    	String url = "https://otc.mxc.com/api/coin/USDT/price";
-        //如有报错 请自行官网申请获取汇率 或者默认写死
-        HttpResponse<JsonNode> resp = Unirest.get(url)
-                .asJson();
-        if(resp.getStatus() == 200) { //正确返回
-	        JSONObject ret = JSON.parseObject(resp.getBody().toString());
-	        if(ret.getIntValue("code") == 0) {
-	        	JSONObject result = ret.getJSONObject("result");
-	        	setUsdtCnyRate(new BigDecimal(result.getDouble("buy")).setScale(2, RoundingMode.HALF_UP));
-	        	return;
-	        }
+    public void syncUsdtCnyPrice() {
+        try {
+            // 使用币安P2P接口获取USDT价格
+            String url = "https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search";
+            JSONObject params = new JSONObject();
+            params.put("page", 1);
+            params.put("rows", 1);
+            params.put("payTypes", new JSONArray());
+            params.put("asset", "USDT");
+            params.put("tradeType", "SELL");
+            params.put("fiat", "CNY");
+            params.put("publisherType", null);
+
+            HttpResponse<JsonNode> response = Unirest.post(url)
+                    .header("Content-Type", "application/json")
+                    .body(params.toJSONString())
+                    .asJson();
+
+            if (response.getStatus() == 200) {
+                JSONObject body = JSON.parseObject(response.getBody().toString());
+                if (body.getBooleanValue("success")) {
+                    JSONArray data = body.getJSONArray("data");
+                    if (data.size() > 0) {
+                        JSONObject ad = data.getJSONObject(0).getJSONObject("adv");
+                        BigDecimal price = ad.getBigDecimal("price");
+                        setUsdtCnyRate(price.setScale(2, RoundingMode.HALF_UP));
+                        log.info("Successfully fetched USDT/CNY rate from Binance P2P: {}", price);
+                        return;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to fetch USDT/CNY rate from Binance P2P", e);
         }
-        
-        // Huobi Otc接口（如抹茶接口无效则走此路径）
-        String url2 = "https://otc-api-sz.eiijo.cn/v1/data/trade-market?coinId=2&currency=1&tradeType=sell&currPage=1&payMethod=0&country=37&blockType=general&online=1&range=0&amount=";
-        HttpResponse<JsonNode> resp2 = Unirest.get(url2)
-                .asJson();
-        if(resp2.getStatus() == 200) { //正确返回
-        	JSONObject ret2 = JSON.parseObject(resp2.getBody().toString());
-	        if(ret2.getIntValue("code") == 200) {
-	        	JSONArray arr = ret2.getJSONArray("data");
-	        	if(arr.size() > 0) {
-	        		JSONObject obj = arr.getJSONObject(0);
-	        		setUsdtCnyRate(new BigDecimal(obj.getDouble("price")).setScale(2, RoundingMode.HALF_UP));
-	        		return;
-	        	}
-	        }
-        }
-        
-        // Okex Otc接口
-        String url3 = "https://www.okex.me/v3/c2c/tradingOrders/book?t=1566269221580&side=sell&baseCurrency=usdt&quoteCurrency=cny&userType=certified&paymentMethod=all";
-        HttpResponse<JsonNode> resp3 = Unirest.get(url2)
-                .asJson();
-        if(resp3.getStatus() == 200) { //正确返回
-        	JSONObject ret3 = JSON.parseObject(resp3.getBody().toString());
-	        if(ret3.getIntValue("code") == 0) {
-	        	JSONObject okObj = ret3.getJSONObject("data");
-	        	JSONArray okArr = okObj.getJSONArray("sell");
-	        	if(okArr.size() > 0) {
-	        		JSONObject okObj2 = okArr.getJSONObject(0);
-	        		setUsdtCnyRate(new BigDecimal(okObj2.getDouble("price")).setScale(2, RoundingMode.HALF_UP));
-	        		return;
-	        	}
-	        }
-        }
+        log.warn("Failed to fetch USDT/CNY rate.");
     }
     
     /**
      * 每30分钟同步一次价格
      *
-     * @throws UnirestException
      */
     
     @Scheduled(cron = "0 */30 * * * *")
-    public void syncPrice() throws UnirestException {
-    	
-        String url = "http://web.juhe.cn:8080/finance/exchange/frate?key=444af6d32012064c4654cf87c30ce537";
-        //如有报错 请自行官网申请获取汇率 或者默认写死
-        HttpResponse<JsonNode> resp = Unirest.get(url)
-                .queryString("key", "444af6d32012064c4654cf87c30ce537")
-                .asJson();
-        log.info("forex result:{}", resp.getBody());
-        JSONObject ret = JSON.parseObject(resp.getBody().toString());
-        
-        if(ret.getIntValue("resultcode") == 200) {
-	        JSONArray result = ret.getJSONArray("result");
-	        result.forEach(json -> {
-	            JSONObject obj = (JSONObject) json;
-	            if ("USDCNY".equals(obj.getString("code"))) {
-	                setUsdCnyRate(new BigDecimal(obj.getDouble("price")).setScale(2, RoundingMode.DOWN));
-	                log.info(obj.toString());
-	            } else if ("USDJPY".equals(obj.getString("code"))) {
-	                setUsdJpyRate(new BigDecimal(obj.getDouble("price")).setScale(2, RoundingMode.DOWN));
-	                log.info(obj.toString());
-	            }
-	            
-	            /* 
-	            else if ("USDHKD".equals(obj.getString("code"))) {
-	                setUsdHkdRate(new BigDecimal(obj.getDouble("price")).setScale(2, RoundingMode.DOWN));
-	                log.info(obj.toString());
-	            } else if("SGDCNH".equals(obj.getString("code"))){
-	                setSgdCnyRate(new BigDecimal(obj.getDouble("price")).setScale(2,RoundingMode.DOWN));
-	                log.info(obj.toString());
-	            }
-	            */
-	            
-	        });
+    public void syncPrice() {
+        try {
+            // 使用免费汇率API
+            String url = "https://open.er-api.com/v6/latest/USD";
+            HttpResponse<JsonNode> resp = Unirest.get(url).asJson();
+            log.info("forex result:{}", resp.getBody());
+            JSONObject ret = JSON.parseObject(resp.getBody().toString());
+
+            if ("success".equals(ret.getString("result"))) {
+                JSONObject rates = ret.getJSONObject("rates");
+                if (rates.containsKey("CNY")) {
+                    setUsdCnyRate(rates.getBigDecimal("CNY").setScale(2, RoundingMode.DOWN));
+                    log.info("Updated USD/CNY rate: {}", usdCnyRate);
+                }
+                if (rates.containsKey("JPY")) {
+                    setUsdJpyRate(rates.getBigDecimal("JPY").setScale(2, RoundingMode.DOWN));
+                    log.info("Updated USD/JPY rate: {}", usdJpyRate);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to fetch forex rates", e);
         }
     }
 }

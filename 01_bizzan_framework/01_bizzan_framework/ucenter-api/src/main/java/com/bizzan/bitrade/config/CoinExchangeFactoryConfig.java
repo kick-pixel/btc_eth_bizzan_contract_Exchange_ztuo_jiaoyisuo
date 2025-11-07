@@ -21,7 +21,7 @@ public class CoinExchangeFactoryConfig {
         List<Coin> coinList = coinService.findAll();
         CoinExchangeFactory factory = new CoinExchangeFactory();
         coinList.forEach(coin ->
-                factory.set(coin.getUnit(), new BigDecimal(coin.getUsdRate()), new BigDecimal(coin.getCnyRate()))
+                factory.set(coin.getUnit(), coin.getUsdRate(), BigDecimal.valueOf(coin.getCnyRate()))
         );
         return factory;
     }

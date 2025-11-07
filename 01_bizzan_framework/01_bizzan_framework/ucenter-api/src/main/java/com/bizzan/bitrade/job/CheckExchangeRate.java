@@ -48,7 +48,7 @@ public class CheckExchangeRate {
     		if(factory.getCoins().containsKey(coin.getUnit())) {
     			continue;
     		}
-    		factory.set(coin.getUnit(), new BigDecimal(coin.getUsdRate()), new BigDecimal(coin.getCnyRate()));
+    		factory.set(coin.getUnit(), coin.getUsdRate(), BigDecimal.valueOf(coin.getCnyRate()));
     	}
     }
     

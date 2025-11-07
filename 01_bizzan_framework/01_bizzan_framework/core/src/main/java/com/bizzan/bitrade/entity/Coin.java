@@ -1,15 +1,23 @@
 package com.bizzan.bitrade.entity;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
-import lombok.Data;
-import lombok.ToString;
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.CommonStatus;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author GS
@@ -64,7 +72,7 @@ public class Coin {
      */
     @Excel(name = "对美元汇率", orderNum = "1", width = 20)
     @Column(columnDefinition = "decimal(18,2) default 0.00 comment '美元汇率'")
-    private double usdRate;
+    private BigDecimal usdRate;
     /**
      * 是否支持rpc接口
      */

@@ -1,8 +1,8 @@
 package com.bizzan.bitrade.entity;
 
-import lombok.Data;
-
 import java.math.BigDecimal;
+
+import lombok.Data;
 
 @Data
 public class CoinThumb {
@@ -21,6 +21,8 @@ public class CoinThumb {
     private BigDecimal usdRate;
     //基币对usd的汇率
     private BigDecimal baseUsdRate;
+
+
     // 交易區
     private int zone;
 }

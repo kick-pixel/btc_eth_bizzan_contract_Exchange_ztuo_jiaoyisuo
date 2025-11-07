@@ -113,9 +113,14 @@
             <artifactId>shiro-quartz</artifactId>
             <version>1.4.0</version>
         </dependency>
-	</dependencies>
-	<profiles>
-		<profile>
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+ </dependencies>
+ <profiles>
+  <profile>
 			<id>dev</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
