@@ -1,10 +1,10 @@
 package com.bizzan.bc.wallet.entity;
 
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
-import lombok.Data;
 
 @Data
 public class Coin {
@@ -22,6 +22,7 @@ public class Coin {
     private BigDecimal rechargeMinerFee;
     private String ignoreFromAddress;
     private String masterAddress;
+    private Long chainId;
 
     public String getName() {
         return name;
@@ -77,5 +78,9 @@ public class Coin {
 
     public String getMasterAddress() {
         return masterAddress;
+    }
+
+    public Long getChainId() {
+        return chainId;
     }
 }

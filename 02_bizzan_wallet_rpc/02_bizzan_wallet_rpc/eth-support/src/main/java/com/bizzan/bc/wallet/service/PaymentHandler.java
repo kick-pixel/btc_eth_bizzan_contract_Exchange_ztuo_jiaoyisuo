@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.entity.Contract;
+import com.bizzan.bc.wallet.entity.Payment;
 import com.bizzan.bc.wallet.util.EthConvert;
 import com.bizzan.bc.wallet.util.MessageResult;
-import com.bizzan.bc.wallet.entity.Payment;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,9 @@ import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.generated.Uint256;
-import org.web3j.crypto.*;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.RawTransaction;
+import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
@@ -117,7 +119,7 @@ public class PaymentHandler {
             RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
                     nonce, gasPrice, maxGas, payment.getTo(), value);
 
-            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, payment.getCredentials());
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, coin.getChainId(), payment.getCredentials());
             String hexValue = Numeric.toHexString(signedMessage);
             EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
             String transactionHash = ethSendTransaction.getTransactionHash();
@@ -155,7 +157,7 @@ public class PaymentHandler {
             logger.info("from={},value={},gasPrice={},gasLimit={},nonce={},address={}",payment.getCredentials().getAddress(), value, gasPrice, maxGas, nonce,payment.getTo());
             RawTransaction rawTransaction = RawTransaction.createTransaction(
                     nonce, gasPrice, maxGas, contract.getAddress(), data);
-            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, payment.getCredentials());
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, coin.getChainId(), payment.getCredentials());
             String hexValue = Numeric.toHexString(signedMessage);
             logger.info("hexRawValue={}",hexValue);
             EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
