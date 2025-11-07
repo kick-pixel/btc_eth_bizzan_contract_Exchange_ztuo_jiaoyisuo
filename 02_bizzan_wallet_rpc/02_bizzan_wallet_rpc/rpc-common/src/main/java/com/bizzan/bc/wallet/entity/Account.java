@@ -1,9 +1,9 @@
 package com.bizzan.bc.wallet.entity;
 
 
-import lombok.Data;
-
 import java.math.BigDecimal;
+
+import lombok.Data;
 
 @Data
 public class Account {
@@ -14,4 +14,24 @@ public class Account {
     private BigDecimal balance = BigDecimal.ZERO;
     //地址燃料余额，对Token,USDT有用
     private BigDecimal gas = BigDecimal.ZERO;
+
+    public String getAccount() {
+        return account;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getWalletFile() {
+        return walletFile;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public BigDecimal getGas() {
+        return gas;
+    }
 }

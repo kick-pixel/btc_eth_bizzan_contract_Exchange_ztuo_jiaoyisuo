@@ -1,63 +1,38 @@
-# btc_eth_bizzan_contract_Exchange_ztuo_jiaoyisuo
+# Bizzan Web3 交易所 - 完整架构与源码分析课程
 
-#### 全新版本的交易所系统2025即将上线，前后端价格全新设计！！！
+本文档是 **Bizzan Web3 交易所** 项目一套完整的、共 22 章的深度解析课程的总目录。
 
-`1、项目用了Lombok插件，无论用什么IDE工具，请务必先安装Lombok插件 2、项目用了QueryDsl，如果遇见以Q开头的类找不到，请先编译一下对应的core模块，例如core、exchange-core、xxx-core这种模块 3、找不到的jar包在项目jar文件夹下
-jdk版本1.8以上（有可能在项目目录下的lib目录）`
+本课程旨在提供一份对初学者友好、内容详尽的指南，将原始的项目文档，升级为一套适合视频课程的“精讲版”文字稿。每一个章节都旨在成为一堂独立的课程，并承前启后，内容覆盖了从项目环境搭建，到核心微服务源码剖析，再到区块链 RPC 对接、安全体系和生产环境高可用部署等全部环节。
 
-`2、初始化sql在sql文件夹中配置文件 配置文件打开这个设置会自动建表 #jpa spring.jpa.hibernate.ddl-auto=update`
+## 课程大纲
 
-自助下单：https://www.bnbcode.com （2024-5 更新测试域名）
+### 第一部分：基础建设篇
 
-# 1、JAVA交易所源码开源列表
+*   [第 01 章：课程介绍与 Web3 世界观](./doc/01.课程介绍与%20Web3%20世界观.md)
+*   [第 02 章：本地开发环境搭建](./doc/02.本地开发环境搭建.md)
+*   [第 03 章：项目启动与微服务架构总览](./doc/03.项目启动与微服务架构总览.md)
+*   [第 04 章：MySQL 设计 (上) - 用户与资产模型](./doc/04.MySQL%20设计%20(上)%20-%20用户与资产模型及关系.md)
+*   [第 05 章：MySQL 设计 (下) - 交易模型](./doc/05.MySQL%20设计%20(下)%20-%20交易模型及关系.md)
+*   [第 06 章：MongoDB 应用：K线与时序数据存储](./doc/06.MongoDB%20应用：K线与时序数据存储.md)
+*   [第 07 章：Redis 应用：高性能缓存与会话管理](./doc/07.Redis%20应用：高性能缓存与会话管理.md)
+*   [第 08 章：API 网关 (Nginx) 与服务发现 (Eureka)](./doc/08.API%20网关%20(Nginx)%20与服务发现%20(Eureka).md)
+*   [第 09 章：异步通信核心 - Apache Kafka](./doc/09.异步通信核心%20-%20Apache%20Kafka.md)
+*   [第 10 章：实时消息推送：Spring WebSocket 源码剖析](./doc/10.实时消息推送：Spring%20WebSocket%20源码剖析.md)
 
-1. 撮合交易引擎 后台管理（后端+前端）
-2. 前台（交易页面、活动页面、个人中心等） 
-3. 原生安卓APP源码
-4. 原生苹果APP源码 
-5. 币种钱包RPC源码 
+### 第二部分：核心业务篇
 
-**本项目开源的免费版本没有永续合约和秒合约期权 。**
+*   [第 11 章：用户中心 (ucenter-api) 源码剖析](./doc/11.用户中心%20(ucenter-api)%20源码剖析.md)
+*   [第 12 章：钱包服务 (wallet) 源码剖析](./doc/12.钱包服务%20(wallet)%20源码剖析.md)
+*   [第 13 章：交易网关 (exchange-api) 源码剖析](./doc/13.交易网关%20(exchange-api)%20源码剖析.md)
+*   [第 14 章：撮合引擎 (exchange) 源码剖析](./doc/14.撮合引擎%20(exchange)%20源码剖析.md)
+*   [第 15 章：法币交易 (otc-api) 源码剖析](./doc/15.法币交易%20(otc-api)%20源码剖析.md)
+*   [第 16 章：行情中心 (market)：数据聚合与生成](./doc/16.行情中心%20(market)：数据聚合与生成.md)
+*   [第 17 章：后台管理 (admin) 源码剖析](./doc/17.后台管理%20(admin)%20源码剖析.md)
 
-Call Me：https://t.me/usdtvps666
+### 第三部分：高级专题篇
 
-# 2、系统运行环境
-
-1. Centos 6.8
-2. MySQL 5.5.16
-3. Redis-x64-3.2.100
-4. Mongodb 3.6.13 5. kafka_2.11-2.2.1 6. nginx-1.16.0
-7.	JRE 8u241
-8.	JDK 1.8
-9.	Vue
-10.	Zookeeper
-
-# 3、生产环境建议配置
-
-![数字合约交易所开源全部源码](/img/bushu.jpg)
-
-# 运行截图
-
-![数字合约交易所开源全部源码](/img/index1.jpg)
-
-![数字合约交易所开源全部源码](/img/index2.jpg)
-
-
-
-![数字合约交易所开源全部源码](/img/index3.jpg)
-
-
-
-
-
-# 商业版JAva永续合约+期权+秒合约的演示地址
-
-前端PC站：https://btxpc.testjys.shop
-
-
-
-------
-
-[![开源的区块链合约交易所Java](https://res.cloudinary.com/marcomontalbano/image/upload/v1703318840/video_to_markdown/images/youtube--aVVEOkefJlE-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=aVVEOkefJlE "开源的区块链合约交易所Java")
-
-
+*   [第 18 章：区块链 RPC (上) - 比特币/USDT 节点](./doc/18.区块链%20RPC%20对接%20(上)%20-%20比特币USDT%20钱包节点.md)
+*   [第 19 章：区块链 RPC (下) - 以太坊及 ERC20 代币](./doc/19.区块链%20RPC%20对接%20(下)%20-%20以太坊及%20ERC20%20代币.md)
+*   [第 20 章：安全专题：API 签名、防刷与资金安全](./doc/20.安全专题：API%20签名、防刷与资金安全.md)
+*   [第 21 章：生产环境部署与高可用](./doc/21.生产环境部署与高可用.md)
+*   [第 22 章：课程总结与未来展望](./doc/22.课程总结与未来展望.md)

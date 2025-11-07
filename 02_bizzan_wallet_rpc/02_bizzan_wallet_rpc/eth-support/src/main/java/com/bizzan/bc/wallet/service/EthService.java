@@ -56,6 +56,14 @@ public class EthService {
         return address;
     }
 
+    public String importWalletFromPrivateKey(String account, String password, String privateKey) throws IOException, CipherException {
+        BigInteger privKey = new BigInteger(privateKey, 16);
+        ECKeyPair ecKeyPair = ECKeyPair.create(privKey);
+        String fileName = WalletUtils.generateWalletFile(password, ecKeyPair, new File(coin.getKeystorePath()), true);
+        String address = "0x" + Keys.getAddress(ecKeyPair);
+        accountService.saveOne(account, fileName, address);
+        return address;
+    }
 
     /**
      * 同步余额
@@ -104,38 +112,63 @@ public class EthService {
         return new BigDecimal(baseGasPrice).multiply(coin.getGasSpeedUp()).toBigInteger();
     }
 
+        /**
+     * 从钱包账户转账到指定地址
+     *
+     * @param address 目标转账地址
+     * @param amount 需要转账的总金额
+     * @param fee 每笔转账的手续费
+     * @param minAmount 最小余额要求，用于筛选转账账户
+     * @return MessageResult 转账结果，包含转账成功的总金额
+     */
     public MessageResult transferFromWallet(String address, BigDecimal amount, BigDecimal fee, BigDecimal minAmount) {
         logger.info("transferFromWallet 方法");
+
+        // 查找满足最小余额条件的账户
         List<Account> accounts = accountService.findByBalance(minAmount);
         if (accounts == null || accounts.size() == 0) {
             MessageResult messageResult = new MessageResult(500, "没有满足条件的转账账户(大于0.1)!");
             logger.info(messageResult.toString());
             return messageResult;
         }
+
         BigDecimal transferredAmount = BigDecimal.ZERO;
+
+        // 遍历账户进行转账，直到满足总金额要求
         for (Account account : accounts) {
+            // 计算实际可转金额（账户余额减去手续费）
             BigDecimal realAmount = account.getBalance().subtract(fee);
+            // 如果当前账户余额超过剩余需转金额，则只转剩余金额
             if (realAmount.compareTo(amount.subtract(transferredAmount)) > 0) {
                 realAmount = amount.subtract(transferredAmount);
             }
+
+            // 执行转账操作
             MessageResult result = transfer(coin.getKeystorePath() + "/" + account.getWalletFile(), "", address, realAmount, true,"");
             if (result.getCode() == 0 && result.getData() != null) {
                 logger.info("transfer address={},amount={},txid={}", account.getAddress(), realAmount, result.getData());
                 transferredAmount = transferredAmount.add(realAmount);
+
+                // 同步更新账户余额
                 try {
                     syncAddressBalance(account.getAddress());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
+            // 如果已转账金额达到目标金额，则停止转账
             if (transferredAmount.compareTo(amount) >= 0) {
                 break;
             }
         }
+
+        // 返回转账结果
         MessageResult result = new MessageResult(0, "success");
         result.setData(transferredAmount);
         return result;
     }
+
 
     public MessageResult transferToken(String fromAddress, String toAddress, BigDecimal amount, boolean sync) {
         Account account = accountService.findByAddress(fromAddress);

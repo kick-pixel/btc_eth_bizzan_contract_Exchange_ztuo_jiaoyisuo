@@ -1,23 +1,28 @@
 package com.bizzan.bc.wallet.controller;
 
-import com.bizzan.bc.wallet.entity.Coin;
-import com.bizzan.bc.wallet.service.AccountService;
-import com.bizzan.bc.wallet.util.MessageResult;
-import com.bizzan.bc.wallet.component.EthWatcher;
-import com.bizzan.bc.wallet.service.EthService;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.EthBlockNumber;
 import org.web3j.protocol.core.methods.response.EthGasPrice;
 import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.utils.Convert;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import com.bizzan.bc.wallet.component.EthWatcher;
+import com.bizzan.bc.wallet.entity.Coin;
+import com.bizzan.bc.wallet.service.AccountService;
+import com.bizzan.bc.wallet.service.EthService;
+import com.bizzan.bc.wallet.util.MessageResult;
 
 @RestController
 @RequestMapping("/rpc")
@@ -54,6 +59,20 @@ public class WalletController {
         logger.info("create new account={},password={}", account, password);
         try {
             String address = service.createNewWallet(account, password);
+            MessageResult result = new MessageResult(0, "success");
+            result.setData(address);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MessageResult.error(500, "rpc error:" + e.getMessage());
+        }
+    }
+
+    @GetMapping("import-private-key")
+    public MessageResult importPrivateKey(String account, String password, String privateKey) {
+        logger.info("import private key for account={}", account);
+        try {
+            String address = service.importWalletFromPrivateKey(account, password, privateKey);
             MessageResult result = new MessageResult(0, "success");
             result.setData(address);
             return result;

@@ -1,10 +1,12 @@
 package com.bizzan.bc.wallet.entity;
 
-import com.bizzan.bc.wallet.util.EthConvert;
-import lombok.Data;
+import java.math.BigInteger;
+
 import org.apache.commons.lang3.StringUtils;
 
-import java.math.BigInteger;
+import com.bizzan.bc.wallet.util.EthConvert;
+
+import lombok.Data;
 
 @Data
 public class Contract {
@@ -17,5 +19,21 @@ public class Contract {
     public EthConvert.Unit getUnit(){
         if(StringUtils.isEmpty(decimals))return EthConvert.Unit.ETHER;
         else return EthConvert.Unit.fromString(decimals);
+    }
+
+    public String getDecimals() {
+        return decimals;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public BigInteger getGasLimit() {
+        return gasLimit;
+    }
+
+    public String getEventTopic0() {
+        return eventTopic0;
     }
 }
