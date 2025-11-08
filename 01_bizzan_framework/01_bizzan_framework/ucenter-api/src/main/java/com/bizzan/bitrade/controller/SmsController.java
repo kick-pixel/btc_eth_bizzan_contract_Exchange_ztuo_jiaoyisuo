@@ -259,6 +259,7 @@ public class SmsController {
         } else {
             result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
+        log.info("短信验证码:{}", randomCode);
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
             String key = SysConstant.PHONE_WITHDRAW_MONEY_CODE_PREFIX + member.getMobilePhone();
