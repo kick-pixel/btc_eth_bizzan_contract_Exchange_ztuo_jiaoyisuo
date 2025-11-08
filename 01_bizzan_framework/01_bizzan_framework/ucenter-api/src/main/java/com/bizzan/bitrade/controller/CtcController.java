@@ -8,11 +8,7 @@ import static org.springframework.util.Assert.notNull;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -141,7 +137,7 @@ public class CtcController  extends BaseController{
 			return error("订单不存在！");
 		}
 		
-		if(order.getMember().getId() != member.getId()) {
+		if(!Objects.equals(order.getMember().getId(), member.getId()) && !Objects.equals(order.getAcceptor().getId(), member.getId())) {
 			return error("非法访问订单！");
 		}
 		order.setCurrentTime(DateUtil.getCurrentDate());

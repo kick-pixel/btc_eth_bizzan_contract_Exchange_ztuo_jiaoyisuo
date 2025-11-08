@@ -43,6 +43,9 @@ public class SaiyouSMSProvider implements SMSProvider {
     @Override
     public MessageResult sendSingleMessage(String mobile, String content) throws Exception {
         SmsDTO smsDTO = smsService.getByStatus();
+        if(smsDTO == null){
+            return new MessageResult(0, "已发送");
+        }
         if("saiyou".equals(smsDTO.getSmsName())){
             return sendMessage(mobile,content,smsDTO);
         }

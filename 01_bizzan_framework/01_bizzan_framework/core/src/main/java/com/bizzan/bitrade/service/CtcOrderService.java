@@ -68,7 +68,7 @@ public class CtcOrderService extends BaseService {
         //查询条件
         Criteria<CtcOrder> specification = new Criteria<CtcOrder>();
 
-        specification.add(Restrictions.eq("member", member, false));
+        specification.add(Restrictions.or(Restrictions.eq("member", member, false), Restrictions.eq("acceptor", member, false)));
         
         return ctcOrderDao.findAll(specification, pageRequest);
     }

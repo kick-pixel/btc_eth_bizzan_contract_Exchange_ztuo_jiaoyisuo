@@ -151,7 +151,6 @@ public class AdminCtcOrderController  extends BaseController {
 	 * @param status
 	 * @return
 	 */
-	@RequiresPermissions("ctc:order:complete-order")
     @AccessLog(module = AdminModule.CTC, operation = "标记已付款并完成CTC订单")
 	@PostMapping("complete-order")
 	@Transactional(rollbackFor = Exception.class)

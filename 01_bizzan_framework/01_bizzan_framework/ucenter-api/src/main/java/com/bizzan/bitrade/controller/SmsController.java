@@ -69,6 +69,7 @@ public class SmsController {
             }
         }
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        log.info("send sms code:{}", randomCode);
         MessageResult result;
         if ("86".equals(country1.getAreaCode())) {
             Assert.isTrue(ValidateUtil.isMobilePhone(phone.trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
@@ -210,6 +211,7 @@ public class SmsController {
         } else {
             result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
+        log.info("短信验证码:{}", randomCode);
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
             String key = SysConstant.PHONE_ADD_ADDRESS_PREFIX + member.getMobilePhone();
@@ -281,6 +283,7 @@ public class SmsController {
         } else {
             result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
+        log.info("===C2C验证码发送===mobile：{}===randomCode:{}", member.getMobilePhone(), randomCode);
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
             String key = SysConstant.PHONE_CTC_TRADE_CODE_PREFIX + member.getMobilePhone();

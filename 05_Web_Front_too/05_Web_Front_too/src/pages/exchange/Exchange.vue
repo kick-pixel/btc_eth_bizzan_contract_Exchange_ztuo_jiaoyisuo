@@ -1698,7 +1698,7 @@ export default {
         library_path:
           process.env.NODE_ENV === "production"
             ? "/assets/charting_library/"
-            : "src/assets/js/charting_library/",
+            : "/static/charting_library/",
         locale: "zh",
         debug: false,
         drawings_access: {
