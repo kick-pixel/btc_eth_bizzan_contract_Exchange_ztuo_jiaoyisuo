@@ -1,6 +1,5 @@
 package com.bizzan.bc.wallet.config;
 
-import com.spark.blockchain.rpcclient.BitcoinException;
 import com.spark.blockchain.rpcclient.BitcoinRPCClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +20,9 @@ public class RpcClientConfig {
     public BitcoinRPCClient setClient(@Value("${coin.rpc}") String uri){
         try {
             logger.info("uri={}",uri);
-            BitcoinRPCClient client =  new BitcoinRPCClient(uri);
-            int blockCount = client.getBlockCount();
-            logger.info("blockHeight={}",blockCount);
-            return client;
+            return new BitcoinRPCClient(uri);
         } catch (MalformedURLException e) {
-            logger.info("init wallet failed");
-            e.printStackTrace();
-            return null;
-        } catch (BitcoinException e) {
-            logger.info("BitcoinException");
+            logger.error("init wallet failed, invalid rpc uri: {}", uri, e);
             e.printStackTrace();
             return null;
         }

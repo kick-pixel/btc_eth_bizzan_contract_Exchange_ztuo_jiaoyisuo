@@ -2,10 +2,8 @@ package com.spark.blockchain.rpcclient;
 
 import com.spark.blockchain.rpcclient.Bitcoin.BasicTxInput;
 import com.spark.blockchain.rpcclient.Bitcoin.Unspent;
+
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,12 +23,8 @@ public class BitcoinUtil {
         if (unspents.size() == 0) {
             throw new BitcoinException("insufficient coin");
         } else {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String account = "acct-change-" + df.format(new Date());
-            String changeAddress = bitcoin.getAccountAddress(account);
-            if (changeAddress == null) {
-                changeAddress = bitcoin.getNewAddress(account);
-            }
+            // Get a new address to receive the change. The concept of 'accounts' is deprecated.
+            String changeAddress = bitcoin.getNewAddress();
 
             System.out.println("change address:" + changeAddress);
             BitcoinRawTxBuilder builder = new BitcoinRawTxBuilder(bitcoin);

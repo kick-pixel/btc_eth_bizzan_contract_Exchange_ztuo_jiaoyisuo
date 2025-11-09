@@ -6,8 +6,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @EnableEurekaClient
 @SpringBootApplication
-public class WalletRpcApplication {
+public class BitCoinWalletRpcApplication {
     public static void main(String[] args){
-        SpringApplication.run(WalletRpcApplication.class,args);
+        SpringApplication.run(BitCoinWalletRpcApplication.class, args);
     }
 }

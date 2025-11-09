@@ -1,50 +1,21 @@
 package com.spark.blockchain.rpcclient;
 
 import com.alibaba.fastjson.JSONObject;
-import com.spark.blockchain.rpcclient.Bitcoin.AddNoteCmd;
-import com.spark.blockchain.rpcclient.Bitcoin.AddressValidationResult;
-import com.spark.blockchain.rpcclient.Bitcoin.BasicTxInput;
-import com.spark.blockchain.rpcclient.Bitcoin.Block;
-import com.spark.blockchain.rpcclient.Bitcoin.Info;
-import com.spark.blockchain.rpcclient.Bitcoin.MiningInfo;
-import com.spark.blockchain.rpcclient.Bitcoin.PeerInfo;
-import com.spark.blockchain.rpcclient.Bitcoin.RawTransaction;
-import com.spark.blockchain.rpcclient.Bitcoin.ReceivedAddress;
-import com.spark.blockchain.rpcclient.Bitcoin.Transaction;
-import com.spark.blockchain.rpcclient.Bitcoin.TransactionsSinceBlock;
-import com.spark.blockchain.rpcclient.Bitcoin.TxInput;
-import com.spark.blockchain.rpcclient.Bitcoin.TxOutSetInfo;
-import com.spark.blockchain.rpcclient.Bitcoin.TxOutput;
-import com.spark.blockchain.rpcclient.Bitcoin.Unspent;
-import com.spark.blockchain.rpcclient.Bitcoin.Work;
-import com.spark.blockchain.rpcclient.Bitcoin.RawTransaction.In;
-import com.spark.blockchain.rpcclient.Bitcoin.RawTransaction.Out;
-import com.spark.blockchain.rpcclient.Bitcoin.RawTransaction.Out.ScriptPubKey;
 import com.spark.blockchain.util.Base64Coder;
 import com.spark.blockchain.util.JSON;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.Charset;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSocketFactory;
 
 public class BitcoinRPCClient implements Bitcoin {
     private static final Logger logger = Logger.getLogger(BitcoinRPCClient.class.getCanonicalName());
@@ -574,7 +545,7 @@ public class BitcoinRPCClient implements Bitcoin {
     }
 
     public String signRawTransaction(String hex) throws BitcoinException {
-        Map result = (Map)this.query("signrawtransaction", hex);
+        Map result = (Map) this.query("signrawtransactionwithwallet", hex);
         if ((Boolean)result.get("complete")) {
             return (String)result.get("hex");
         } else {
