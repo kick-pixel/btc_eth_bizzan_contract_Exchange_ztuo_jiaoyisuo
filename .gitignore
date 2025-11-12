@@ -54,3 +54,6 @@ config/application-*.yml
 # IDE specific files #
 *.swp
 *.swo
+
+.claude/
+/doc/
