@@ -881,11 +881,11 @@ public class BitcoinRPCClient implements Bitcoin {
                 }
 
                 public String type() {
-                    return this.mapStr(this.type());
+                    return this.mapStr("type");
                 }
 
-                public List<String> addresses() {
-                    return (List)this.m.get("addresses");
+                public String address() {
+                    return this.mapStr("address");
                 }
             }
         }

@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableEurekaClient
 @SpringBootApplication
 @EnableScheduling
-public class WalletApplication {
+public class EthWalletApplication {
     public static void main(String[] args){
-        SpringApplication.run(WalletApplication.class,args);
+        SpringApplication.run(EthWalletApplication.class,args);
     }
 }

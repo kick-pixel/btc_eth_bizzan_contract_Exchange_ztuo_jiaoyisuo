@@ -293,7 +293,7 @@ public interface Bitcoin {
 
                 String type();
 
-                List<String> addresses();
+                String address();
             }
         }
 
