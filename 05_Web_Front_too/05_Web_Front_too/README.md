@@ -14,13 +14,10 @@ The following dependencies are required to run an instance:
 
 ``` bash
 # install dependencies
-npm i
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
+npm install -g cnpm@7.1.1 --registry=https://registry.npmmirror.com
+cnpm i
+cnpm run dev
 
 ```
 

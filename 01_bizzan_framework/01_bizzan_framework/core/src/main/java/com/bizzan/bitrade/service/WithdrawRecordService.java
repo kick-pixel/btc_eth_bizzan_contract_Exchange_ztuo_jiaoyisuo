@@ -170,9 +170,12 @@ public class WithdrawRecordService extends BaseService {
                 transaction.setRealFee(record.getFee()+"");
                 transaction.setCreateTime(new Date());
                 transaction = transactionService.save(transaction);
-
+                walletService.save(wallet);
+                this.save(record);
             }
         }
+
+
     }
 
     /**

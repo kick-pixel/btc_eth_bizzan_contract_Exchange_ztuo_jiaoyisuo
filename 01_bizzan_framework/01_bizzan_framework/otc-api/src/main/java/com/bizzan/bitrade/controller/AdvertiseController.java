@@ -231,6 +231,7 @@ public class AdvertiseController extends BaseController {
         }
         advertise.setRemainAmount(advertise.getNumber());
         advertise.setStatus(AdvertiseControlStatus.PUT_ON_SHELVES);
+        advertiseService.saveAdvertise(advertise);
         return MessageResult.success(msService.getMessage("PUT_ON_SHELVES_SUCCESS"));
     }
 
