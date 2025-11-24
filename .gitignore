@@ -59,3 +59,5 @@ config/application-*.yml
 /doc/
 /.spec-workflow/
 /docker-compose.yml
+
+.spec-workflow/
